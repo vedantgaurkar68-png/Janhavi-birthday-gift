@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday Wish</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Poppins',sans-serif;
+
+background:
+linear-gradient(135deg,#1a0029,#2d004d,#090014);
+
+color:white;
+position:relative;
+}
+
+.card{
+
+position:relative;
+z-index:10;
+
+width:90%;
+max-width:420px;
+
+padding:35px 25px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,0.08);
+
+border:1px solid rgba(255,255,255,0.15);
+
+text-align:center;
+
+box-shadow:
+0 0 20px rgba(255,0,255,0.25),
+0 0 40px rgba(0,255,255,0.15);
+
+}
+
+.top{
+font-size:70px;
+margin-bottom:10px;
+}
+
+h1{
+font-family:'Great Vibes',cursive;
+font-size:60px;
+
+text-shadow:
+0 0 10px #ff00ff,
+0 0 20px #ff00ff;
+}
+
+.subtitle{
+margin-top:10px;
+font-size:16px;
+letter-spacing:2px;
+color:#ffd8ff;
+}
+
+.line{
+
+width:120px;
+height:4px;
+
+margin:20px auto;
+
+border-radius:20px;
+
+background:linear-gradient(to right,#ff00ff,#00ffff);
+
+}
+
+.message{
+
+line-height:1.8;
+font-size:15px;
+color:#f3eaff;
+
+}
+
+.quote{
+
+margin-top:18px;
+font-style:italic;
+font-size:14px;
+color:#ffdfff;
+
+}
+
+.btns{
+
+margin-top:28px;
+
+display:flex;
+flex-direction:column;
+
+gap:14px;
+
+}
+
+button{
+
+border:none;
+
+padding:14px;
+
+border-radius:40px;
+
+font-size:15px;
+font-weight:600;
+
+cursor:pointer;
+
+color:white;
+
+background:linear-gradient(45deg,#ff00cc,#7a5cff,#00e1ff);
+
+transition:0.3s;
+
+}
+
+button:hover{
+
+transform:scale(1.03);
+
+}
+
+#wish{
+
+display:none;
+
+margin-top:20px;
+
+padding:15px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,0.08);
+
+line-height:1.7;
+
+font-size:14px;
+
+}
+
+.footer{
+
+margin-top:22px;
+
+font-size:12px;
+
+opacity:0.8;
+
+}
+
+canvas{
+
+position:fixed;
+inset:0;
+
+pointer-events:none;
+
+z-index:1;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<div class="card">
+
+<div class="top">🎂✨</div>
+
+<h1>Happy Birthday</h1>
+
+<div class="subtitle">
+Janhavi tai 💖
+</div>
+
+<div class="line"></div>
+
+<div class="message">
+
+May your life always shine brighter than the stars ✨
+
+May happiness, love, success and beautiful memories stay with you forever 💖
+
+</div>
+
+<div class="quote">
+
+"You make the world beautiful just by being in it." 💎
+
+</div>
+
+<div class="btns">
+
+<button onclick="celebrate()">
+
+Celebrate 🎉
+
+</button>
+
+<button onclick="showWish()">
+
+Open Message 💌
+
+</button>
+
+</div>
+
+<div id="wish">
+
+You are truly special 🌸💖
+
+May all your dreams come true and may your smile always stay forever ✨
+
+</div>
+
+<div class="footer">
+
+Made with love 💜
+
+</div>
+
+</div>
+
+<script>
+
+const canvas=document.getElementById('canvas');
+
+const ctx=canvas.getContext('2d');
+
+let w=canvas.width=window.innerWidth;
+
+let h=canvas.height=window.innerHeight;
+
+let particles=[];
+
+function random(min,max){
+
+return Math.random()*(max-min)+min;
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<120;i++){
+
+particles.push({
+
+x:w/2,
+y:h/3,
+
+size:random(4,8),
+
+speedX:random(-4,4),
+
+speedY:random(-8,2),
+
+color:`hsl(${Math.random()*360},100%,70%)`,
+
+alpha:1
+
+});
+
+}
+
+}
+
+function animate(){
+
+ctx.clearRect(0,0,w,h);
+
+for(let i=particles.length-1;i>=0;i--){
+
+const p=particles[i];
+
+ctx.globalAlpha=p.alpha;
+
+ctx.fillStyle=p.color;
+
+ctx.fillRect(p.x,p.y,p.size,p.size);
+
+p.x+=p.speedX;
+
+p.y+=p.speedY;
+
+p.speedY+=0.12;
+
+p.alpha-=0.01;
+
+if(p.alpha<=0){
+
+particles.splice(i,1);
+
+}
+
+}
+
+requestAnimationFrame(animate);
+
+}
+
+function celebrate(){
+
+createConfetti();
+
+}
+
+function showWish(){
+
+const wish=document.getElementById('wish');
+
+if(wish.style.display==="block"){
+
+wish.style.display="none";
+
+}else{
+
+wish.style.display="block";
+
+}
+
+celebrate();
+
+}
+
+animate();
+
+window.addEventListener('resize',()=>{
+
+w=canvas.width=window.innerWidth;
+
+h=canvas.height=window.innerHeight;
+
+});
+
+</script>
+
+</body>
+</html>
